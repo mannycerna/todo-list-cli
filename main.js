@@ -38,17 +38,33 @@ const prompt = require('prompt-sync')({sigint: true});
 //Whenever we add an item to the toDo List it is [incomplete] by default
 
 array of booleans
+
+true = [complete]
+false = [incomplete]
+
 [true,        false,        true] . status array
 ['Walk Dog', 'Get food',  'Run nile'] . toDoList array
 index 0           1          2         shared index
 
+let status = [];
+by default when item is added it defaults to false boolean to the status array [Incomplete] 
+
+
 3. Complete To-Do Items
+-display current items in toDo list with respective status
+-pick which toDo item to mark as complete - swap status from false to true
+-update display of status right after
 
 
 
 
 */
-console.log("Welcome to the To-Do List Manager Application!\n");
+console.log("_______________________________________________");
+console.log(" ");
+console.log("Welcome to the To-Do List Manager Application!");
+console.log("_______________________________________________");
+
+
 
 selectOption();
 // console.log("~ Select an action ~");
@@ -58,7 +74,7 @@ selectOption();
 
 // let option = Number(prompt("> "));
 let toDoList = [];
-let stat_Array = [];
+let statusArray = [];
 
 while(option !== 3){
     if(option === 1){
@@ -67,32 +83,49 @@ while(option !== 3){
 
         //add to do item
         let addItem = prompt("> ");
-        while(addItem === " "){
-            console.log("Invalid: Input cannot be empty");
+        while(addItem === " " ||addItem.length < 1){
+            console.log("Invalid: You must enter an item.");
             addItem = prompt("> ");
         }
 
         toDoList.push(addItem);
-        stat_Array.push("[Incomplete]");
-
+        statusArray.push(false);
+        
         displayList();
      
-        //reprompt user
-        selectOption();
-        } else if (option === 2){
-        console.log("~ Complete a to-do item ~");
-        console.log("Which to-do item would you like to complete?");
-        
-            
         //complete a to do item
+        selectOption(); //reprompt user
+        } else if (option === 2){
+            if(toDoList.length != 0){
+
+            
+            console.log("~ Complete a to-do item ~");
+            console.log("Which to-do item would you like to complete?");
+    
+        displayList();
+
+        let newStatus = Number(prompt("> "));
+
+        while(isNaN(newStatus) || newStatus > statusArray.length || newStatus < 1) {
+            console.log("Please input a number corresponding to list: ");
+            newStatus = Number(prompt("> "));
+            }
+        statusArray[newStatus -1] = true;
+        } else {
+            console.log("List is empty, nothing to complete. Add item first!")
+        }
+
+        displayList();
 
         selectOption();
         } else {
-        console.log('\nInvalid operation');
+        console.log('\nInvalid selection: Select from list!');
+        selectOption()
         }
 }
 
 function selectOption(){
+    console.log(" "); 
     console.log("~ Select an action ~");
     console.log("[1] Create a to-do item");
     console.log("[2] Complete a to-do item");   
@@ -109,8 +142,16 @@ function displayList(){
     }
 
     for(let i = 0; i < toDoList.length; i++){
+        let status = "";
+        if(statusArray[i]===false){
+            status = "[Incomplete]";
+        } else if (statusArray[i] === true){
+            status = "[Complete]";
+        }
+
+
         // console.log(`${i} ${toDoList[i]}\n`);
-        console.log(`${i+1} ${stat_Array[i]} ${toDoList[i]}\n`)
+        console.log(`${i+1} ${status} ${toDoList[i]}\n`)
     }
 }
 
