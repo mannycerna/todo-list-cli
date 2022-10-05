@@ -67,21 +67,21 @@ console.log("_______________________________________________");
 
 
 selectOption();
-// console.log("~ Select an action ~");
-// console.log("[1] Create a to-do item");
-// console.log("[2] Complete a to-do item");
-// console.log("[3] Exit to-do list")
 
-// let option = Number(prompt("> "));
+//Build arrays to reference 1. List of Items 2.  Status of Items
+
 let toDoList = [];
 let statusArray = [];
+
+// Begin interface with a while loop with knowledge that we need 3 option (1. Add 2. Update Status 3. Exit app) for user to select from.  If user select 3 (true) then exit the application; else continue running app.
 
 while(option !== 3){
     if(option === 1){
         console.log("\n~ Creating a new to-do item ~");
         console.log("What is this to-do item called?");
 
-        //add to do item
+//add to do item
+
         let addItem = prompt("> ");
         while(addItem === " " ||addItem.length < 1){
             console.log("Invalid: You must enter an item.");
@@ -93,18 +93,17 @@ while(option !== 3){
         
         displayList();
      
-        //complete a to do item
+//update status of to-do item
         selectOption(); //reprompt user
         } else if (option === 2){
             if(toDoList.length != 0){
-
             
             console.log("~ Complete a to-do item ~");
             console.log("Which to-do item would you like to complete?");
     
         displayList();
 
-        let newStatus = Number(prompt("> "));
+        let newStatus = Number(prompt("> ")); //reprompt
 
         while(isNaN(newStatus) || newStatus > statusArray.length || newStatus < 1) {
             console.log("Please input a number corresponding to list: ");
@@ -124,6 +123,9 @@ while(option !== 3){
         }
 }
 
+//-----Functions Below-----//
+
+//Function to display inital UI with the available options to user
 function selectOption(){
     console.log(" "); 
     console.log("~ Select an action ~");
@@ -133,6 +135,7 @@ function selectOption(){
     option = Number(prompt("> "));  
 };
 
+//Function to display to-do item list and/or list to-do item status 
 function displayList(){
 
     if(toDoList.length === 0){
